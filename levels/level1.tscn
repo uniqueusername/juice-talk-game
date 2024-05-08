@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7mc7ksjgadup"]
+[gd_scene load_steps=6 format=3 uid="uid://b7mc7ksjgadup"]
 
 [ext_resource type="PackedScene" uid="uid://djw71ie8wroqe" path="res://objects/gameplay/player/player.tscn" id="1_jdgvt"]
 [ext_resource type="TileSet" uid="uid://rlkl4qdm0mes" path="res://assets/tiles/arcade.tres" id="2_lo284"]
+[ext_resource type="PackedScene" uid="uid://bjptbsyemoqwq" path="res://objects/gameplay/star/star.tscn" id="3_v8s10"]
 
 [sub_resource type="GDScript" id="GDScript_5keul"]
 resource_name = "level1"
@@ -15,13 +16,10 @@ func _input(event):
 	
 	if event.is_action_pressed(\"exit\"):
 		get_tree().quit()
-	
-	if event.is_action_pressed(\"tab\"):
-		get_tree().change_scene_to_packed(tuner_scene)
 
 # resets the level
 func reset():
-	get_tree().change_scene_to_file(\"res://levels/level1.tscn\")
+	$player.kill()
 
 func _on_world_boundary_body_entered(body):
 	if body == $player: reset()
@@ -37,6 +35,7 @@ script = SubResource("GDScript_5keul")
 position = Vector2(171, 178)
 
 [node name="camera" type="Camera2D" parent="player"]
+visible = false
 position_smoothing_enabled = true
 
 [node name="walls" type="TileMap" parent="."]
@@ -50,5 +49,13 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="world_boundary"]
 shape = SubResource("WorldBoundaryShape2D_8blul")
+
+[node name="collectibles" type="Node2D" parent="."]
+
+[node name="star" parent="collectibles" instance=ExtResource("3_v8s10")]
+position = Vector2(120, 104)
+
+[node name="star2" parent="collectibles" instance=ExtResource("3_v8s10")]
+position = Vector2(232, 232)
 
 [connection signal="body_entered" from="world_boundary" to="." method="_on_world_boundary_body_entered"]

@@ -174,16 +174,12 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed(\"reset\"):
 		reset()
-	
-	if event.is_action_pressed(\"tab\"):
-		get_tree().change_scene_to_packed(level_scene)
 
 # re-place spawner relative to viewport size
 func reposition():
 	global_position = Vector2(48, get_viewport_rect().size.y - 128)
 
 func reset():
-	print(\"frick\")
 	player.cancel_movement()
 	player.position = Vector2.ZERO
 
@@ -299,7 +295,7 @@ layout_mode = 2
 label = "Start Acceleration"
 min_value = 10.0
 max_value = 600.0
-value = 100.0
+value = 50.0
 tooltip = "Rate player accelerates in the direction being pressed."
 
 [node name="stop_accel" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
@@ -307,7 +303,7 @@ layout_mode = 2
 label = "Stop Acceleration"
 min_value = 10.0
 max_value = 600.0
-value = 150.0
+value = 50.0
 exponential = true
 tooltip = "Rate character decelerates to a stop
 when no inputs are pressed."
@@ -375,12 +371,13 @@ layout_mode = 2
 label = "Air Strafe Multiplier"
 max_value = 1.0
 step = 2.08165e-12
-value = 0.2
+value = 0.4
 tooltip = "How quickly can the player change 
 directions in mid-air (1 is 
 ground-speed, 0 is not at all)."
 
 [node name="warning" type="PanelContainer" parent="viewport/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -394,7 +391,6 @@ theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="viewport/MarginContainer/VBoxContainer/warning/MarginContainer"]
-visible = false
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="viewport/MarginContainer/VBoxContainer/warning/MarginContainer/HBoxContainer"]
