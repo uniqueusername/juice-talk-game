@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjptbsyemoqwq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j3bck"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kbcv8"]
+size = Vector2(15, 15)
+
+[node name="star" type="StaticBody2D"]
+position = Vector2(237, 223)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_j3bck")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_kbcv8")

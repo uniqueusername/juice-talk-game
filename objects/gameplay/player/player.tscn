@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://djw71ie8wroqe"]
+[gd_scene load_steps=18 format=3 uid="uid://djw71ie8wroqe"]
 
 [ext_resource type="Script" path="res://objects/gameplay/player/player.gd" id="1_cyoaf"]
 [ext_resource type="Texture2D" uid="uid://dawxfm4v5g37x" path="res://assets/sprites/player/player_idle.png" id="2_04sks"]
 [ext_resource type="Texture2D" uid="uid://485tmp7b8c2a" path="res://assets/sprites/player/player_jump.png" id="3_2i24a"]
 [ext_resource type="Texture2D" uid="uid://beapxp4qm050a" path="res://assets/sprites/player/player_run.png" id="4_if5yt"]
 [ext_resource type="Script" path="res://objects/gameplay/player/movement.gd" id="5_lrip1"]
+[ext_resource type="Script" path="res://objects/gameplay/player/star_collector.gd" id="6_8f5q6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bf01k"]
 atlas = ExtResource("3_2i24a")
@@ -117,3 +118,13 @@ position = Vector2(2.08165e-12, 46)
 shape = SubResource("RectangleShape2D_o8i1t")
 target_position = Vector2(2.08165e-12, 10)
 max_results = 1
+
+[node name="star_collector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("6_8f5q6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="star_collector"]
+shape = SubResource("RectangleShape2D_40m11")
+
+[connection signal="body_entered" from="star_collector" to="star_collector" method="_on_body_entered"]

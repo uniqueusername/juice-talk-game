@@ -174,9 +174,6 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed(\"reset\"):
 		reset()
-	
-	if event.is_action_pressed(\"tab\"):
-		get_tree().change_scene_to_packed(level_scene)
 
 # re-place spawner relative to viewport size
 func reposition():
