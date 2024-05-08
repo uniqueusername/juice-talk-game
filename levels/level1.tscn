@@ -53,8 +53,9 @@ shape = SubResource("WorldBoundaryShape2D_8blul")
 [node name="collectibles" type="Node2D" parent="."]
 
 [node name="star" parent="collectibles" instance=ExtResource("3_v8s10")]
+position = Vector2(120, 104)
 
 [node name="star2" parent="collectibles" instance=ExtResource("3_v8s10")]
-position = Vector2(148, 118)
+position = Vector2(232, 232)
 
 [connection signal="body_entered" from="world_boundary" to="." method="_on_world_boundary_body_entered"]
