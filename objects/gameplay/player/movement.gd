@@ -3,9 +3,14 @@ extends Node2D
 
 @onready var p: CharacterBody2D = get_parent() # reference to player node
 @onready var ground_ray: ShapeCast2D = $ground_ray # ground detection ray
+var just_landed: bool = false
+var in_air_last_frame: bool = false
+var just_skid: bool = false
+
 @export var sprite: AnimatedSprite2D # sprite to animate (optional)
 var animated: bool = false # configured automatically based on `sprite`
 var skid_enabled: bool = false # configured automatically if `sprite` has skid frames
+@onready var sounds: Node = get_node_or_null("sounds") # sounds component (optional)
 
 # input variables
 var input_dir: Vector2 = Vector2.ZERO # max magnitude 1.0
@@ -41,6 +46,7 @@ func _ready():
 	animated = sprite != null
 	skid_enabled = (sprite.sprite_frames.has_animation("skid")
 					and sprite.sprite_frames.get_frame_count("skid") > 0)
+	
 	jump_speed = calculate_jump(jump_height)
 	ground_ray.target_position = Vector2(0, sticky_distance)
 
@@ -61,7 +67,8 @@ func _physics_process(delta):
 	p.move_and_slide()
 	
 	# animate the sprite accordingly
-	if animated: animate(input_dir.x, p.is_on_floor(), sprite)
+	if animated: animate(input_dir.x, p.velocity.x, ground_ray.is_colliding(), sprite)
+	if sounds: play_audio(sounds, input_dir.x, p.velocity.x, jump_just_pressed, ground_ray.is_colliding(), just_landed, just_skid)
 
 # update character velocities for one frame based on inputs
 func update_velocities(dir: Vector2, jump: bool, delta: float):
@@ -99,6 +106,10 @@ func update_velocities(dir: Vector2, jump: bool, delta: float):
 	if jump and coyote_timer > 0:
 		p.velocity.y = -jump_speed
 		coyote_timer = 0
+		
+	## set just_landed
+	just_landed = in_air_last_frame and ground_ray.is_colliding()
+	in_air_last_frame = not ground_ray.is_colliding()
 
 # call this to make the player stop moving
 # (until they provide another input)
@@ -132,19 +143,28 @@ func calculate_jump(jump_height: float):
 
 # animate sprite based on status
 # expects "run", "idle", and "jump" animations
-func animate(x_input: float, on_floor: bool, sprite: AnimatedSprite2D):
+func animate(x_input: float, x_velocity: float, on_floor: bool, sprite: AnimatedSprite2D):
 	if x_input > 0: sprite.flip_h = true
 	elif x_input < 0: sprite.flip_h = false
+	just_skid = false
 	
 	if skid_enabled and on_floor:
 		if !$skid_timer.is_stopped():
 			sprite.play("skid")
 			return
-		elif x_input * p.velocity.x < 0:
+		elif x_input * x_velocity < 0:
 			$skid_timer.start()
+			just_skid = true
 			return
 
 	if abs(x_input) > 0: sprite.play("run")
 	else: sprite.play("idle")
 	
 	if !on_floor: sprite.play("jump")
+	
+# play sounds based on status
+# expects a "sounds" component containing jump, land, and skid players
+func play_audio(sounds: Node, x_input: float, x_velocity: float, jump: bool, on_floor: bool, landed: bool, skid: bool):
+	if jump and on_floor: sounds.get_node("jump").play()
+	if landed: sounds.get_node("land").play()
+	if skid_enabled and skid: sounds.get_node("skid").play()

@@ -11,7 +11,6 @@ func collect():
 	collected = true
 	
 	$AudioStreamPlayer2D.play()
-	
 	var tween = create_tween()
 	
 	tween.set_ease(Tween.EASE_OUT)

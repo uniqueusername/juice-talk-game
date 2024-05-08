@@ -122,6 +122,8 @@ one_shot = true
 
 [node name="land" type="AudioStreamPlayer2D" parent="movement/sounds"]
 
+[node name="skid" type="AudioStreamPlayer2D" parent="movement/sounds"]
+
 [node name="star_collector" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 8
