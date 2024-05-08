@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://chledrc08mf0n"]
 
-[ext_resource type="PackedScene" uid="uid://wppivb7axvby" path="res://objects/ui/slider/config_slider.tscn" id="1_mkmqh"]
+[ext_resource type="PackedScene" uid="uid://wppivb7axvby" path="res://objects/ui/slider/config_slider.tscn" id="1_mrera"]
 [ext_resource type="Shader" path="res://assets/shaders/platform.gdshader" id="2_6cjt0"]
 [ext_resource type="Shader" path="res://assets/shaders/platform_target.gdshader" id="3_145am"]
 
@@ -143,8 +143,8 @@ resource_name = "player_spawner"
 script/source = "extends Node2D
 
 @export var movement_tuner: Control # connect movement tuner to player
-var level_scene = preload(\"res://scenes/levels/level1.tscn\")
-var player_scene = preload(\"res://scenes/objects/player/player.tscn\")
+var level_scene = preload(\"res://levels/level1.tscn\")
+var player_scene = preload(\"res://objects/gameplay/player/player.tscn\")
 var player: Node
 
 func _ready():
@@ -208,7 +208,7 @@ shader = ExtResource("3_145am")
 resource_name = "platform_spawner"
 script/source = "extends Node2D
 
-var platform_scene = load(\"res://scenes/objects/placeable_platform/platform.tscn\")
+var platform_scene = load(\"res://objects/gameplay/placeable_platform/platform.tscn\")
 var can_place: bool = true
 
 func _input(event):
@@ -259,7 +259,7 @@ size_flags_vertical = 0
 theme_override_constants/separation = 0
 script = SubResource("GDScript_a2dy6")
 
-[node name="gap_width" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="gap_width" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Gap Width"
 max_value = 600.0
@@ -269,7 +269,7 @@ tooltip = "Size of the gap in the middle of the level."
 [node name="HSeparator" type="HSeparator" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator"]
 layout_mode = 2
 
-[node name="start_accel" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="start_accel" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Start Acceleration"
 min_value = 10.0
@@ -277,7 +277,7 @@ max_value = 600.0
 value = 100.0
 tooltip = "Rate player accelerates in the direction being pressed."
 
-[node name="stop_accel" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="stop_accel" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Stop Acceleration"
 min_value = 10.0
@@ -287,7 +287,7 @@ exponential = true
 tooltip = "Rate character decelerates to a stop
 when no inputs are pressed."
 
-[node name="max_speed" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="max_speed" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Max Speed"
 min_value = 10.0
@@ -298,7 +298,7 @@ tooltip = "Maximum speed of player."
 [node name="HSeparator2" type="HSeparator" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator"]
 layout_mode = 2
 
-[node name="jump_height" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="jump_height" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Jump Height"
 min_value = 4.0
@@ -306,7 +306,7 @@ max_value = 300.0
 value = 48.0
 tooltip = "How high the player jumps in pixels."
 
-[node name="sticky_distance" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="sticky_distance" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Sticky Distance"
 max_value = 40.0
@@ -315,7 +315,7 @@ value = 10.0
 tooltip = "How close the player needs to be to
 the ground before they can jump."
 
-[node name="coyote_duration" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="coyote_duration" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Coyote Time"
 max_value = 0.3
@@ -327,7 +327,7 @@ jump after leaving a platform."
 [node name="HSeparator3" type="HSeparator" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator"]
 layout_mode = 2
 
-[node name="first_half_grav" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="first_half_grav" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Jumping Gravity"
 min_value = 32.0
@@ -336,7 +336,7 @@ value = 980.0
 tooltip = "Force of gravity when the
 player is moving up."
 
-[node name="second_half_grav" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="second_half_grav" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Falling Gravity"
 min_value = 32.0
@@ -345,7 +345,7 @@ value = 980.0
 tooltip = "Force of gravity when the
 player is moving down."
 
-[node name="air_strafe_multiplier" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mkmqh")]
+[node name="air_strafe_multiplier" parent="gui/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Air Strafe Multiplier"
 max_value = 1.0
