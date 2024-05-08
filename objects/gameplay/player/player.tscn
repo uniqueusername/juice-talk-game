@@ -130,4 +130,6 @@ script = ExtResource("6_8f5q6")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="star_collector"]
 shape = SubResource("RectangleShape2D_40m11")
 
+[node name="death_audio" type="AudioStreamPlayer2D" parent="."]
+
 [connection signal="body_entered" from="star_collector" to="star_collector" method="_on_body_entered"]

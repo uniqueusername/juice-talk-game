@@ -19,7 +19,7 @@ func _input(event):
 
 # resets the level
 func reset():
-	get_tree().change_scene_to_file(\"res://levels/level1.tscn\")
+	$player.kill()
 
 func _on_world_boundary_body_entered(body):
 	if body == $player: reset()

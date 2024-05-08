@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@onready var init_pos: Vector2 = position
+
 # called once, when this scene is initialized
 func _ready():
 	pass
@@ -18,3 +20,8 @@ func _input(event):
 
 func cancel_movement():
 	$movement.cancel_movement()
+
+func kill():
+	cancel_movement()
+	position = init_pos
+	$death_audio.play()

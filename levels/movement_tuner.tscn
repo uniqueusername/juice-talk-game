@@ -295,7 +295,7 @@ layout_mode = 2
 label = "Start Acceleration"
 min_value = 10.0
 max_value = 600.0
-value = 100.0
+value = 50.0
 tooltip = "Rate player accelerates in the direction being pressed."
 
 [node name="stop_accel" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
@@ -303,7 +303,7 @@ layout_mode = 2
 label = "Stop Acceleration"
 min_value = 10.0
 max_value = 600.0
-value = 150.0
+value = 50.0
 exponential = true
 tooltip = "Rate character decelerates to a stop
 when no inputs are pressed."
@@ -371,7 +371,7 @@ layout_mode = 2
 label = "Air Strafe Multiplier"
 max_value = 1.0
 step = 2.08165e-12
-value = 0.2
+value = 0.4
 tooltip = "How quickly can the player change 
 directions in mid-air (1 is 
 ground-speed, 0 is not at all)."

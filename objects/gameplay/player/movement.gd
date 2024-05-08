@@ -34,7 +34,7 @@ var coyote_timer: float = coyote_duration
 @export_subgroup("air movement")
 @export var first_half_grav: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var second_half_grav: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-@export var air_strafe_multiplier: float = 0.2
+@export var air_strafe_multiplier: float = 0.4
 
 # runs when the scene is ready--initial configuration
 func _ready():
