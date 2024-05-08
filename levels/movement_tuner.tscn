@@ -180,7 +180,6 @@ func reposition():
 	global_position = Vector2(48, get_viewport_rect().size.y - 128)
 
 func reset():
-	print(\"frick\")
 	player.cancel_movement()
 	player.position = Vector2.ZERO
 

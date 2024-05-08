@@ -5,6 +5,7 @@ extends Node2D
 @onready var ground_ray: ShapeCast2D = $ground_ray # ground detection ray
 @export var sprite: AnimatedSprite2D # sprite to animate (optional)
 var animated: bool = false # configured automatically based on `sprite`
+var skid_enabled: bool = false # configured automatically if `sprite` has skid frames
 
 # input variables
 var input_dir: Vector2 = Vector2.ZERO # max magnitude 1.0
@@ -13,7 +14,7 @@ var jump_just_pressed: bool = false
 # movement constants - pixels per second
 @export_group("movement configuration")
 @export_subgroup("ground movement")
-@export var start_accel: float = 100
+@export var start_accel: float = 50
 @export var stop_accel: float = 50
 @export var max_speed: float = 200
 
@@ -38,6 +39,8 @@ var coyote_timer: float = coyote_duration
 # runs when the scene is ready--initial configuration
 func _ready():
 	animated = sprite != null
+	skid_enabled = (sprite.sprite_frames.has_animation("skid")
+					and sprite.sprite_frames.get_frame_count("skid") > 0)
 	jump_speed = calculate_jump(jump_height)
 	ground_ray.target_position = Vector2(0, sticky_distance)
 
@@ -130,10 +133,18 @@ func calculate_jump(jump_height: float):
 # animate sprite based on status
 # expects "run", "idle", and "jump" animations
 func animate(x_input: float, on_floor: bool, sprite: AnimatedSprite2D):
-	if abs(x_input) > 0: sprite.play("run")
-	else: sprite.play("idle")
-	
 	if x_input > 0: sprite.flip_h = true
 	elif x_input < 0: sprite.flip_h = false
+	
+	if skid_enabled and on_floor:
+		if !$skid_timer.is_stopped():
+			sprite.play("skid")
+			return
+		elif x_input * p.velocity.x < 0:
+			$skid_timer.start()
+			return
+
+	if abs(x_input) > 0: sprite.play("run")
+	else: sprite.play("idle")
 	
 	if !on_floor: sprite.play("jump")
