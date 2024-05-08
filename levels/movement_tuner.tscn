@@ -381,6 +381,7 @@ directions in mid-air (1 is
 ground-speed, 0 is not at all)."
 
 [node name="warning" type="PanelContainer" parent="viewport/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -394,7 +395,6 @@ theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="viewport/MarginContainer/VBoxContainer/warning/MarginContainer"]
-visible = false
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="viewport/MarginContainer/VBoxContainer/warning/MarginContainer/HBoxContainer"]
