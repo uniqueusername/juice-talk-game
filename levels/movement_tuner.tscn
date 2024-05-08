@@ -1,8 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://chledrc08mf0n"]
+[gd_scene load_steps=20 format=3 uid="uid://chledrc08mf0n"]
 
 [ext_resource type="PackedScene" uid="uid://wppivb7axvby" path="res://objects/ui/slider/config_slider.tscn" id="1_mrera"]
 [ext_resource type="Shader" path="res://assets/shaders/platform.gdshader" id="2_6cjt0"]
+[ext_resource type="Texture2D" uid="uid://c3ylas00jd65p" path="res://assets/sprites/ui/warning.png" id="2_ys1qq"]
 [ext_resource type="Shader" path="res://assets/shaders/platform_target.gdshader" id="3_145am"]
+[ext_resource type="Theme" uid="uid://dnsb0gnweikot" path="res://assets/theme.tres" id="3_lsmqq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxapw"]
 bg_color = Color(0.380392, 0.380392, 0.380392, 0.784314)
@@ -24,6 +26,8 @@ var movement: Node2D
 @onready var second_half_grav = $second_half_grav
 @onready var air_strafe_multiplier = $air_strafe_multiplier
 
+@export var accel_warning: PanelContainer
+
 # send values from ui to movement component
 func send_config():
 	if movement:
@@ -38,6 +42,12 @@ func send_config():
 			second_half_grav.value,
 			air_strafe_multiplier.value
 		)
+		
+		if accel_warning:
+			accel_warning.visible = (
+				start_accel.value > max_speed.value
+				or stop_accel.value > max_speed.value
+			)
 
 # retrieve defaults from movement component
 func set_movement_component(component):
@@ -250,37 +260,41 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="viewport/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="viewport/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="viewport/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_lxapw")
 
-[node name="MarginContainer" type="MarginContainer" parent="viewport/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="viewport/MarginContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="configurator" type="VBoxContainer" parent="viewport/MarginContainer/PanelContainer/MarginContainer"]
+[node name="configurator" type="VBoxContainer" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" node_paths=PackedStringArray("accel_warning")]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 script = SubResource("GDScript_a2dy6")
+accel_warning = NodePath("../../../warning")
 
-[node name="gap_width" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="gap_width" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Gap Width"
 max_value = 600.0
 value = 100.0
 tooltip = "Size of the gap in the middle of the level."
 
-[node name="HSeparator" type="HSeparator" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator"]
+[node name="HSeparator" type="HSeparator" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator"]
 layout_mode = 2
 
-[node name="start_accel" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="start_accel" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Start Acceleration"
 min_value = 10.0
@@ -288,7 +302,7 @@ max_value = 600.0
 value = 100.0
 tooltip = "Rate player accelerates in the direction being pressed."
 
-[node name="stop_accel" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="stop_accel" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Stop Acceleration"
 min_value = 10.0
@@ -298,7 +312,7 @@ exponential = true
 tooltip = "Rate character decelerates to a stop
 when no inputs are pressed."
 
-[node name="max_speed" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="max_speed" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Max Speed"
 min_value = 10.0
@@ -306,10 +320,10 @@ max_value = 800.0
 value = 200.0
 tooltip = "Maximum speed of player."
 
-[node name="HSeparator2" type="HSeparator" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator"]
+[node name="HSeparator2" type="HSeparator" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator"]
 layout_mode = 2
 
-[node name="jump_height" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="jump_height" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Jump Height"
 min_value = 4.0
@@ -317,7 +331,7 @@ max_value = 300.0
 value = 48.0
 tooltip = "How high the player jumps in pixels."
 
-[node name="sticky_distance" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="sticky_distance" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Sticky Distance"
 max_value = 40.0
@@ -326,7 +340,7 @@ value = 10.0
 tooltip = "How close the player needs to be to
 the ground before they can jump."
 
-[node name="coyote_duration" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="coyote_duration" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Coyote Time"
 max_value = 0.3
@@ -335,10 +349,10 @@ value = 0.1
 tooltip = "Seconds that the player can still
 jump after leaving a platform."
 
-[node name="HSeparator3" type="HSeparator" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator"]
+[node name="HSeparator3" type="HSeparator" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator"]
 layout_mode = 2
 
-[node name="first_half_grav" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="first_half_grav" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Jumping Gravity"
 min_value = 32.0
@@ -347,7 +361,7 @@ value = 980.0
 tooltip = "Force of gravity when the
 player is moving up."
 
-[node name="second_half_grav" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="second_half_grav" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Falling Gravity"
 min_value = 32.0
@@ -356,7 +370,7 @@ value = 980.0
 tooltip = "Force of gravity when the
 player is moving down."
 
-[node name="air_strafe_multiplier" parent="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
+[node name="air_strafe_multiplier" parent="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" instance=ExtResource("1_mrera")]
 layout_mode = 2
 label = "Air Strafe Multiplier"
 max_value = 1.0
@@ -365,6 +379,35 @@ value = 0.2
 tooltip = "How quickly can the player change 
 directions in mid-air (1 is 
 ground-speed, 0 is not at all)."
+
+[node name="warning" type="PanelContainer" parent="viewport/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lxapw")
+
+[node name="MarginContainer" type="MarginContainer" parent="viewport/MarginContainer/VBoxContainer/warning"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="viewport/MarginContainer/VBoxContainer/warning/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="viewport/MarginContainer/VBoxContainer/warning/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_ys1qq")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="label" type="Label" parent="viewport/MarginContainer/VBoxContainer/warning/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_lsmqq")
+text = "Greater acceleration than max
+speed can cause unintended behavior."
 
 [node name="floor" type="Node2D" parent="."]
 position = Vector2(320, 2.08165e-12)
@@ -404,7 +447,7 @@ shape = SubResource("WorldBoundaryShape2D_ihdqe")
 [node name="player_spawner" type="Node2D" parent="." node_paths=PackedStringArray("movement_tuner")]
 position = Vector2(48, 584)
 script = SubResource("GDScript_f2i7w")
-movement_tuner = NodePath("../viewport/MarginContainer/PanelContainer/MarginContainer/configurator")
+movement_tuner = NodePath("../viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator")
 
 [node name="platform_spawner" type="Area2D" parent="."]
 collision_layer = 0
@@ -420,17 +463,19 @@ scale = Vector2(60, 16)
 texture = SubResource("CanvasTexture_fhjy2")
 script = SubResource("GDScript_6ie38")
 
-[connection signal="mouse_entered" from="viewport/MarginContainer/PanelContainer" to="platform_spawner" method="_on_panel_container_mouse_entered"]
-[connection signal="mouse_exited" from="viewport/MarginContainer/PanelContainer" to="platform_spawner" method="_on_panel_container_mouse_exited"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/gap_width" to="floor" method="_on_gap_width_value_changed"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/start_accel" to="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" method="_on_start_accel_value_changed"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/stop_accel" to="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" method="_on_stop_accel_value_changed"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/max_speed" to="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" method="_on_max_speed_value_changed"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/jump_height" to="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" method="_on_jump_height_value_changed"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/sticky_distance" to="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" method="_on_sticky_distance_value_changed"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/coyote_duration" to="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" method="_on_coyote_duration_value_changed"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/first_half_grav" to="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" method="_on_first_half_grav_value_changed"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/second_half_grav" to="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" method="_on_second_half_grav_value_changed"]
-[connection signal="value_changed" from="viewport/MarginContainer/PanelContainer/MarginContainer/configurator/air_strafe_multiplier" to="viewport/MarginContainer/PanelContainer/MarginContainer/configurator" method="_on_air_strafe_multiplier_value_changed"]
+[connection signal="mouse_entered" from="viewport/MarginContainer/VBoxContainer/PanelContainer" to="platform_spawner" method="_on_panel_container_mouse_entered"]
+[connection signal="mouse_exited" from="viewport/MarginContainer/VBoxContainer/PanelContainer" to="platform_spawner" method="_on_panel_container_mouse_exited"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/gap_width" to="floor" method="_on_gap_width_value_changed"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/start_accel" to="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" method="_on_start_accel_value_changed"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/stop_accel" to="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" method="_on_stop_accel_value_changed"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/max_speed" to="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" method="_on_max_speed_value_changed"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/jump_height" to="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" method="_on_jump_height_value_changed"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/sticky_distance" to="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" method="_on_sticky_distance_value_changed"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/coyote_duration" to="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" method="_on_coyote_duration_value_changed"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/first_half_grav" to="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" method="_on_first_half_grav_value_changed"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/second_half_grav" to="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" method="_on_second_half_grav_value_changed"]
+[connection signal="value_changed" from="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator/air_strafe_multiplier" to="viewport/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/configurator" method="_on_air_strafe_multiplier_value_changed"]
+[connection signal="mouse_entered" from="viewport/MarginContainer/VBoxContainer/warning" to="platform_spawner" method="_on_panel_container_mouse_entered"]
+[connection signal="mouse_exited" from="viewport/MarginContainer/VBoxContainer/warning" to="platform_spawner" method="_on_panel_container_mouse_exited"]
 [connection signal="body_entered" from="floor/world_boundary" to="player_spawner" method="_on_world_boundary_body_entered"]
 [connection signal="body_entered" from="platform_spawner" to="platform_spawner" method="_on_body_entered"]
