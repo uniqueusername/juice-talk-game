@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="2d-platformer-template"
+config/name="she-talk-till-i-juice"
 run/main_scene="res://levels/level1.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 
