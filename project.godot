@@ -22,7 +22,9 @@ gdscript/warnings/shadowed_variable=0
 
 window/size/viewport_width=640
 window/size/viewport_height=360
+window/size/mode=2
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [input]
 
@@ -83,6 +85,7 @@ tab={
 
 2d_physics/layer_1="walls"
 2d_physics/layer_2="player"
+2d_physics/layer_3="kill_area"
 
 [rendering]
 
