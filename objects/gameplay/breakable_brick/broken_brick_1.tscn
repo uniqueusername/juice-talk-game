@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://2xk7xu6m68hy"]
+
+[ext_resource type="Texture2D" uid="uid://bojbbhx5fy33f" path="res://assets/sprites/brick/brick_half1.png" id="1_8a818"]
+[ext_resource type="Script" path="res://objects/gameplay/breakable_brick/broken_mover.gd" id="2_qpbb7"]
+
+[node name="broken_brick1" type="Sprite2D"]
+texture = ExtResource("1_8a818")
+script = ExtResource("2_qpbb7")
+gravity = 250.0
+randx = 100.0
+randy = 30.0

@@ -14,6 +14,10 @@ config/name="she-talk-till-i-juice"
 run/main_scene="res://levels/level1.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 
+[autoload]
+
+GlobalEvents="*res://objects/gameplay/globals/GlobalEvents.gd"
+
 [debug]
 
 gdscript/warnings/shadowed_variable=0
@@ -25,6 +29,10 @@ window/size/viewport_height=360
 window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[dotnet]
+
+project/assembly_name="she-talk-till-i-juice"
 
 [input]
 

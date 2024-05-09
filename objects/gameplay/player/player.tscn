@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://djw71ie8wroqe"]
+[gd_scene load_steps=18 format=3 uid="uid://djw71ie8wroqe"]
 
 [ext_resource type="Script" path="res://objects/gameplay/player/player.gd" id="1_cyoaf"]
 [ext_resource type="Texture2D" uid="uid://dawxfm4v5g37x" path="res://assets/sprites/player/player_idle.png" id="2_04sks"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://beapxp4qm050a" path="res://assets/sprites/player/player_run.png" id="4_if5yt"]
 [ext_resource type="Script" path="res://objects/gameplay/player/movement.gd" id="5_lrip1"]
 [ext_resource type="Script" path="res://objects/gameplay/player/star_collector.gd" id="6_8f5q6"]
+[ext_resource type="Script" path="res://objects/gameplay/player/interact_collide.gd" id="7_tjvtp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bf01k"]
 atlas = ExtResource("3_2i24a")
@@ -131,6 +132,9 @@ script = ExtResource("6_8f5q6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="star_collector"]
 shape = SubResource("RectangleShape2D_40m11")
+
+[node name="interact_collide" type="Node2D" parent="."]
+script = ExtResource("7_tjvtp")
 
 [node name="death_audio" type="AudioStreamPlayer2D" parent="."]
 

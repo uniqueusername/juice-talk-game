@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca308cu2rvlik"]
+
+[ext_resource type="Script" path="res://objects/gameplay/camera/screenshake_camera.gd" id="1_58lib"]
+
+[node name="shake_cam" type="Camera2D"]
+script = ExtResource("1_58lib")
+shake_freq = 25.0
+prev_dir_influence = 0.5

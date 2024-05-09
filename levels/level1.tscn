@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7mc7ksjgadup"]
+[gd_scene load_steps=8 format=3 uid="uid://b7mc7ksjgadup"]
 
 [ext_resource type="PackedScene" uid="uid://djw71ie8wroqe" path="res://objects/gameplay/player/player.tscn" id="1_jdgvt"]
 [ext_resource type="TileSet" uid="uid://rlkl4qdm0mes" path="res://assets/tiles/arcade.tres" id="2_lo284"]
+[ext_resource type="PackedScene" uid="uid://ca308cu2rvlik" path="res://objects/gameplay/camera/camera_shake.tscn" id="2_o6a77"]
 [ext_resource type="PackedScene" uid="uid://bjptbsyemoqwq" path="res://objects/gameplay/star/star.tscn" id="3_v8s10"]
+[ext_resource type="PackedScene" uid="uid://dgnlb5e3ijq02" path="res://objects/gameplay/breakable_brick/break_brick.tscn" id="5_dtl4o"]
 
 [sub_resource type="GDScript" id="GDScript_5keul"]
 resource_name = "level1"
@@ -34,9 +36,8 @@ script = SubResource("GDScript_5keul")
 [node name="player" parent="." instance=ExtResource("1_jdgvt")]
 position = Vector2(171, 178)
 
-[node name="camera" type="Camera2D" parent="player"]
-visible = false
-position_smoothing_enabled = true
+[node name="Camera2D" parent="player" instance=ExtResource("2_o6a77")]
+position = Vector2(100, 0)
 
 [node name="walls" type="TileMap" parent="."]
 tile_set = ExtResource("2_lo284")
@@ -57,5 +58,10 @@ position = Vector2(120, 104)
 
 [node name="star2" parent="collectibles" instance=ExtResource("3_v8s10")]
 position = Vector2(232, 232)
+
+[node name="break_brick" parent="." instance=ExtResource("5_dtl4o")]
+position = Vector2(336, 186)
+num_screenshake_bounces = 20
+play_death_effects = true
 
 [connection signal="body_entered" from="world_boundary" to="." method="_on_world_boundary_body_entered"]

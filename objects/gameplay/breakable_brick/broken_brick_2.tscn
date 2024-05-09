@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch5lxobded2ip"]
+
+[ext_resource type="PackedScene" uid="uid://2xk7xu6m68hy" path="res://objects/gameplay/breakable_brick/broken_brick_1.tscn" id="1_vh4ia"]
+[ext_resource type="Texture2D" uid="uid://bkipkk62rosj2" path="res://assets/sprites/brick/brick_half2.png" id="2_j2sn3"]
+
+[node name="broken_brick1" instance=ExtResource("1_vh4ia")]
+texture = ExtResource("2_j2sn3")
