@@ -62,6 +62,5 @@ position = Vector2(232, 232)
 [node name="break_brick" parent="." instance=ExtResource("5_dtl4o")]
 position = Vector2(336, 186)
 num_screenshake_bounces = 20
-play_death_effects = true
 
 [connection signal="body_entered" from="world_boundary" to="." method="_on_world_boundary_body_entered"]
